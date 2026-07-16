@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TechMind - Organização inteligente e enriquecimento de conteúdo técnico integrado a OCI.">
+  <title>TechMind | Repositório de Conhecimento Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- BARRA LATERAL DE NAVEGAÇÃO -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">
+          <!-- Ícone do Cérebro Simples (Minimalista - Circular) -->
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Linha Central -->
+            <path d="M12 3v18" />
+            
+            <!-- Lóbulo Esquerdo -->
+            <path d="M12 3c-1.5 0-2.8.8-3.4 2-.7-.5-1.8-.6-2.5-.2-1.2.7-1.8 2-1.5 3.5-.9.2-1.7 1-2 2-.6 1.4-.2 3 .8 4-.7.7-1.1 1.7-1 2.8.1 1.4 1 2.6 2.3 3-.1.9.2 1.8.9 2.5 1 1 2.3 1.4 3.6 1 .6 1 1.8 1.4 3 1.4" />
+            
+            <!-- Rugas Internas Esquerdas -->
+            <path d="M9 7c0.6 1 1.8 1.5 3 1.5" />
+            <path d="M6.5 12c0.8 1.2 2.2 1.2 3 .5" />
+            <path d="M7.5 17.5c0.8 1.2 2.2 1.2 3 0" />
+
+            <!-- Lóbulo Direito -->
+            <path d="M12 3c1.5 0 2.8.8 3.4 2 .7-.5 1.8-.6 2.5-.2 1.2.7 1.8 2 1.5 3.5.9.2 1.7 1 2 2 .6 1.4.2 3-.8 4 .7.7 1.1 1.7 1 2.8-.1 1.4-1 2.6-2.3 3 .1.9-.2 1.8-.9 2.5-1 1-2.3 1.4-3.6 1-.6 1-1.8 1.4-3 1.4" />
+            
+            <!-- Rugas Internas Direitas -->
+            <path d="M15 7c-0.6 1-1.8 1.5-3 1.5" />
+            <path d="M12 13.5h1.8c1 0 1.8 0.8 1.8 1.8v0.7" />
+            <path d="M16.5 17.5c-0.8 1.2-2.2 1.2-3 0" />
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div class="logo-text">Tech<span>Mind</span></div>
+          <span style="font-size: 10px; color: var(--text-secondary); margin-top: 2px;" id="logged-user-name">Usuário</span>
+        </div>
+      </div>
+
+      <nav style="flex-grow: 1;">
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#" data-target="view-dashboard">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              Painel Geral
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" data-target="view-analyze">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Análise e Cadastro
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" data-target="view-library">
+              <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              Base de Conhecimento
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" data-target="view-semantic">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Busca Semântica
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" data-target="view-oci">
+              <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              Topologia OCI
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" data-target="view-settings">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              Configurações
+            </a>
+          </li>
+          <li class="nav-item" style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;">
+            <a href="#" id="btn-logout-sidebar" style="color: var(--accent-red); border-color: rgba(239, 68, 68, 0.1);">
+              <svg viewBox="0 0 24 24" style="stroke: var(--accent-red);"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sair da Conta
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="oci-badge">
+          <!-- Ícone Nuvem Oracle -->
+          <svg viewBox="0 0 24 24">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+          </svg>
+          <div>
+            <div style="font-weight: 600; color:var(--text-main)">Oracle OCI</div>
+            <div style="color:var(--text-secondary); font-size:10px;">Integração Ativa</div>
+          </div>
+          <div class="oci-status-dot"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PAINEL DE CONTEÚDO PRINCIPAL (SPA VIEWS) -->
+    <main class="main-content">
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="view-dashboard" class="view-container active-view">
+        <div class="header-view">
+          <h1>Painel de Controle Geral</h1>
+          <p>Métricas consolidadas do repositório técnico e uso dos modelos cognitivos.</p>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-info">
+              <h3>Textos Processados</h3>
+              <div class="kpi-value" id="kpi-total-docs">0</div>
+            </div>
+            <div class="kpi-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-info">
+              <h3>Categorias</h3>
+              <div class="kpi-value" id="kpi-categories">0</div>
+            </div>
+            <div class="kpi-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-info">
+              <h3>Palavras-chave</h3>
+              <div class="kpi-value" id="kpi-tags">0</div>
+            </div>
+            <div class="kpi-icon">
+              <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-info">
+              <h3>Armazenamento OCI</h3>
+              <div class="kpi-value" id="kpi-size">0.00 KB</div>
+            </div>
+            <div class="kpi-icon">
+              <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-details">
+          <!-- DISTRIBUIÇÃO GRÁFICA -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h2>Divisão por Categorias Temáticas</h2>
+              <span style="font-size:11px; color:var(--text-secondary);">Carga de Modelos Ativa</span>
+            </div>
+            <div class="chart-container">
+              <div class="chart-bar-wrapper">
+                <div class="chart-bar" id="bar-backend"><span class="chart-bar-tooltip" id="tooltip-backend">0</span></div>
+                <div class="chart-label">Backend</div>
+              </div>
+              <div class="chart-bar-wrapper">
+                <div class="chart-bar" id="bar-frontend"><span class="chart-bar-tooltip" id="tooltip-frontend">0</span></div>
+                <div class="chart-label">Frontend</div>
+              </div>
+              <div class="chart-bar-wrapper">
+                <div class="chart-bar" id="bar-devops"><span class="chart-bar-tooltip" id="tooltip-devops">0</span></div>
+                <div class="chart-label">DevOps</div>
+              </div>
+              <div class="chart-bar-wrapper">
+                <div class="chart-bar" id="bar-datascience"><span class="chart-bar-tooltip" id="tooltip-datascience">0</span></div>
+                <div class="chart-label">Data Science</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ÚLTIMOS DOCUMENTOS PROCESSADOS -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h2>Atividades Recentes</h2>
+              <span style="font-size:11px; color:var(--text-secondary);">Simulação OCI</span>
+            </div>
+            <div class="timeline" id="timeline-recent">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: CADASTRO E ANÁLISE -->
+      <section id="view-analyze" class="view-container">
+        <div class="header-view">
+          <h1>Análise e Classificação Inteligente</h1>
+          <p>Insira seus textos técnicos para extração automática de tópicos, categorias e palavras-chave.</p>
+        </div>
+
+        <div class="analyzer-layout">
+          <!-- FORMULÁRIO DE ENTRADA -->
+          <div class="dashboard-panel">
+            <form id="analyzer-form">
+              <div class="form-group">
+                <label for="content-title">Título do Conteúdo</label>
+                <input type="text" id="content-title" class="form-control" placeholder="Ex: Métodos e Ciclo de Vida do Spring Controller" required>
+              </div>
+
+              <div class="form-group">
+                <label>Carregamento Rápido (Exemplos Prontos)</label>
+                <div class="quick-examples" id="quick-examples-container">
+                  <!-- Gerado via JS -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="content-type">Tipo de Origem</label>
+                <select id="content-type" class="form-control">
+                  <option value="Artigo">Artigo Técnico</option>
+                  <option value="Documentação">Documentação de Referência</option>
+                  <option value="Notas de Estudo">Notas de Estudo / Resumos</option>
+                  <option value="Tutorial">Tutorial / Passo a Passo</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 24px;">
+                <label for="content-text">Texto Técnico Completo</label>
+                <textarea id="content-text" class="form-control" placeholder="Cole aqui seu conteúdo, documentação, tutoriais ou anotações..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn" id="btn-analyze-submit">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 4px;">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Analisar com TechMind AI
+              </button>
+            </form>
+          </div>
+
+          <!-- MÓDULO RESULTADO (ESTADO INICIAL: VAZIO OU PROCESSANDO) -->
+          <div class="dashboard-panel" style="display: flex; flex-direction: column;">
+            <div class="panel-header">
+              <h2>Metadados de Processamento</h2>
+            </div>
+            
+            <div class="result-panel">
+              <!-- Default: Nada analisado -->
+              <div id="result-placeholder" style="text-align: center; color: var(--text-muted); padding: 40px 20px;">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" style="margin-bottom:16px;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+                <p>Aguardando submissão de dados técnicos para processamento do modelo cognitivo.</p>
+              </div>
+
+              <!-- Loader de Processamento AI -->
+              <div id="processing-container" class="ai-processing" style="display: none;">
+                <div class="orb-container">
+                  <div class="ai-orb"></div>
+                  <div class="ai-spinner-ring"></div>
+                </div>
+                <div class="processing-step" id="processing-step-text">Extraindo tokens gramaticais...</div>
+              </div>
+
+              <!-- Resultados Carregados -->
+              <div id="result-container" class="result-card" style="display: none;">
+                <div class="result-card-row">
+                  <div class="category-gauge-box">
+                    <span class="gauge-title">Categoria Predita</span>
+                    <div class="category-badge-large" id="res-category">Backend</div>
+                    <span class="gauge-percentage" id="res-confidence">Confiança: 94%</span>
+                  </div>
+                  <div class="tags-box">
+                    <span class="gauge-title">Palavras-Chave</span>
+                    <div class="tags-container" id="res-tags">
+                      <!-- Tags -->
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="gauge-title" style="display:block; margin-bottom:8px;">Referência OCI Object Storage</span>
+                  <div style="font-family: var(--font-mono); font-size:11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); padding: 10px; border-radius:6px; color:#818cf8; word-break: break-all;" id="res-oci-path">
+                    oci://bucket/raw/test.json
+                  </div>
+                </div>
+
+                <div class="json-output-box">
+                  <div class="json-header">
+                    <span>Response Payload (JSON)</span>
+                    <button class="json-copy-btn" id="btn-copy-res-json">
+                      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      Copiar JSON
+                    </button>
+                  </div>
+                  <pre id="res-json-pre">{}</pre>
+                </div>
+
+                <button class="btn btn-secondary" id="btn-save-result" style="margin-top: 10px;">
+                  Salvar na Base de Conhecimento
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: BIBLIOTECA -->
+      <section id="view-library" class="view-container">
+        <div class="header-view">
+          <h1>Base de Conhecimento Reutilizável</h1>
+          <p>Explore, busque e consuma a coleção de documentos e fragmentos técnicos processados.</p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="library-search" class="form-control" placeholder="Buscar por título ou palavras-chave...">
+          </div>
+
+          <div class="category-filters">
+            <button class="filter-btn active" data-category="Todos">Todos</button>
+            <button class="filter-btn" data-category="Backend">Backend</button>
+            <button class="filter-btn" data-category="Frontend">Frontend</button>
+            <button class="filter-btn" data-category="DevOps">DevOps</button>
+            <button class="filter-btn" data-category="Data Science">Data Science</button>
+          </div>
+        </div>
+
+        <!-- Grid de Cartões -->
+        <div class="library-grid" id="library-grid">
+          <!-- Preenchido via Javascript -->
+        </div>
+      </section>
+
+      <!-- VIEW 4: BUSCA SEMÂNTICA -->
+      <section id="view-semantic" class="view-container">
+        <div class="header-view">
+          <h1>Busca Semântica Baseada em Relevância</h1>
+          <p>Consulte a base de conhecimento usando linguagem natural. O sistema classifica a proximidade conceitual dos termos.</p>
+        </div>
+
+        <div class="semantic-search-box">
+          <div class="semantic-input-container">
+            <input type="text" id="semantic-search-input" class="form-control" placeholder="O que você está procurando? Ex: 'configuração segura do Spring Controller'">
+            <button class="btn" id="btn-semantic-search">Pesquisar</button>
+          </div>
+          
+          <div class="semantic-tips">
+            <span>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Calcula cosseno de similaridade com dicionário sinônimo.
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Pesquisa no título, corpo e tags extraídas do conteúdo.
+            </span>
+          </div>
+        </div>
+
+        <div class="semantic-results-list" id="semantic-results">
+          <div class="no-results" style="grid-column: 1/-1;">
+            <h3>Pronto para Pesquisa</h3>
+            <p style="margin-top:8px; color:var(--text-muted); font-size:13px;">Insira uma frase técnica ou problema acima para computar a proximidade semântica.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: TOPOLOGIA DE INTEGRAÇÃO OCI -->
+      <section id="view-oci" class="view-container">
+        <div class="header-view">
+          <h1>Integração e Monitor Cloud OCI</h1>
+          <p>Acompanhe o mapeamento arquitetural e o console de tráfego de dados com a nuvem Oracle Cloud Infrastructure.</p>
+        </div>
+
+        <div class="oci-grid">
+          <!-- DIAGRAMA DE REDE DA TOPOLOGIA -->
+          <div class="oci-flow-diagram">
+            <div class="panel-header">
+              <h2>Mapeamento de Serviços OCI</h2>
+            </div>
+            
+            <div class="diagram-canvas">
+              <!-- Camada 1: Client -->
+              <div class="diagram-layer">
+                <div class="diagram-node">
+                  <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  <div class="diagram-node-title">Interface Web UI</div>
+                  <div class="diagram-node-desc">Vanilla SPA</div>
+                </div>
+              </div>
+
+              <!-- Linhas de conexão vertical -->
+              <div class="diagram-line-vert lv1"></div>
+
+              <!-- Camada 2: API & Gateway -->
+              <div class="diagram-layer">
+                <div class="diagram-node">
+                  <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+                  <div class="diagram-node-title">API REST Gateway</div>
+                  <div class="diagram-node-desc">Java Spring Boot App</div>
+                </div>
+              </div>
+
+              <div class="diagram-line-vert lv2"></div>
+
+              <!-- Camada 3: Cloud Resources -->
+              <div class="diagram-layer">
+                <!-- OCI Object Storage -->
+                <div class="diagram-node node-oci">
+                  <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                  <div class="diagram-node-title" style="color:#ef4444">OCI Object Storage</div>
+                  <div class="diagram-node-desc">Buckets de JSON</div>
+                </div>
+                
+                <!-- OCI Data Science -->
+                <div class="diagram-node node-oci">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <div class="diagram-node-title" style="color:#ef4444">OCI Data Science</div>
+                  <div class="diagram-node-desc">Modelos Regressão Logística</div>
+                </div>
+
+                <!-- OCI Database -->
+                <div class="diagram-node node-oci">
+                  <svg viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M9 3a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/></svg>
+                  <div class="diagram-node-title" style="color:#ef4444">Autonomous DB</div>
+                  <div class="diagram-node-desc">Persistência Relacional</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TERMINAL CONSOLE LOGS -->
+          <div class="oci-console">
+            <div class="console-title">Live System Logs & Network Console</div>
+            <div class="console-logs" id="oci-logs-container">
+              <!-- Logs dinâmicos gerados via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 6: CONFIGURAÇÕES -->
+      <section id="view-settings" class="view-container">
+        <div class="header-view">
+          <h1>Parâmetros de Integração do Sistema</h1>
+          <p>Gerencie o apontamento da interface para o servidor de produção local ou remoto.</p>
+        </div>
+
+        <div class="dashboard-panel config-layout">
+          <div class="panel-header">
+            <h2>Modo de Funcionamento</h2>
+          </div>
+
+          <div class="toggle-switch-container">
+            <div class="toggle-switch-info">
+              <h3>Conexão de API em Tempo Real</h3>
+              <p>Habilita conexões REST ativas. Caso desabilitado, utilizará o motor cognitivo simulado de desenvolvimento.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="api-mode-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 28px;">
+            <label for="api-url-input">URL Endpoint Backend (REST)</label>
+            <input type="text" id="api-url-input" class="form-control" placeholder="Ex: http://localhost:8080/api/conteudo" value="http://localhost:8080/api/conteudo" disabled>
+            <span style="font-size:11px; color:var(--text-muted); margin-top:6px; display:block;">Caminho padrão da aplicação Spring Boot local.</span>
+          </div>
+
+          <button class="btn" id="btn-save-settings">Salvar Parâmetros</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- DIÁLOGO MODAL DETALHES DE DOCUMENTOS -->
+  <div class="modal-overlay" id="doc-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-doc-title">Título do Documento</h2>
+        <button class="modal-close-btn" id="modal-close">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-meta-row">
+          <span class="modal-meta-item" id="modal-doc-type">Tipo: Artigo</span>
+          <span class="modal-meta-item" id="modal-doc-category">Categoria: Backend</span>
+          <span class="modal-meta-item" id="modal-doc-confidence" style="color:var(--accent-cyan)">Confiança: 94%</span>
+          <span class="modal-meta-item" id="modal-doc-date">Data: 16/07/2026</span>
+        </div>
+
+        <div>
+          <span class="gauge-title" style="display:block; margin-bottom:8px;">Bucket OCI Object Storage</span>
+          <div style="font-family: var(--font-mono); font-size:11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); padding: 10px; border-radius:6px; color:#818cf8; word-break: break-all;" id="modal-doc-oci-path">
+            oci://bucket-name/documents/raw/file.json
+          </div>
+        </div>
+
+        <div>
+          <span class="gauge-title" style="display:block; margin-bottom:8px;">Texto Técnico</span>
+          <div class="modal-text-content" id="modal-doc-text">
+            Conteúdo
+          </div>
+        </div>
+
+        <div class="json-output-box">
+          <div class="json-header">
+            <span>Metadados Completos do Conhecimento (JSON)</span>
+            <button class="json-copy-btn" id="btn-copy-modal-json">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copiar JSON
+            </button>
+          </div>
+          <pre id="modal-doc-json-pre">{}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOADER -->
+  <script src="mockData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
