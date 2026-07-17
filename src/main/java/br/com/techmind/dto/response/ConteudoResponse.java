@@ -1,4 +1,4 @@
-package br.com.techmind.dto;
+package br.com.techmind.dto.response;
 
 import java.util.List;
 

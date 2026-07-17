@@ -1,7 +1,7 @@
 package br.com.techmind.controller;
 
-import br.com.techmind.dto.ConteudoRequest;
-import br.com.techmind.dto.ConteudoResponse;
+import br.com.techmind.dto.request.ConteudoRequest;
+import br.com.techmind.dto.response.ConteudoResponse;
 import br.com.techmind.service.ConteudoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

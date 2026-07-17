@@ -1,0 +1,22 @@
+package br.com.techmind.repository;
+
+import br.com.techmind.model.entity.Team;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface TeamRepository extends JpaRepository<Team, Long> {
+
+    /**
+     * Busca um time pelo nome
+     */
+    Optional<Team> findByName(String name);
+
+    /**
+     * Verifica se já existe um time com esse nome
+     * 🔒 ESSENCIAL PARA A VALIDAÇÃO DE NOME ÚNICO
+     */
+    boolean existsByName(String name);
+}

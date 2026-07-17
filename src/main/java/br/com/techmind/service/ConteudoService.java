@@ -1,7 +1,7 @@
 package br.com.techmind.service;
 
-import br.com.techmind.dto.ConteudoRequest;
-import br.com.techmind.dto.ConteudoResponse;
+import br.com.techmind.dto.request.ConteudoRequest;
+import br.com.techmind.dto.response.ConteudoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
