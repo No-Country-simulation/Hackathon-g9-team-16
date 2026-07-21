@@ -16,7 +16,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     /**
      * Verifica se já existe um time com esse nome
-     * 🔒 ESSENCIAL PARA A VALIDAÇÃO DE NOME ÚNICO
      */
     boolean existsByName(String name);
 }
