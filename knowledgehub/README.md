@@ -1,18 +1,32 @@
-# Hackathon ONE — Team 16 — KnowledgeHub
+# Hackathon ONE — Team 16 
 
-**Organização Inteligente de Conhecimento Técnico**
+**KnowledgeHub**
 
-Solução que recebe conteúdos técnicos (título + texto) e devolve, em JSON,
-uma **classificação em dois níveis** (área principal + subárea), a **confiança**
-de cada nível, as **palavras-chave** e os **conteúdos relacionados** da base.
+Solução que recebe conteúdos técnicos (título e texto) e devolve, em JSON,
+uma classificação em dois níveis (área principal e subárea), a confiança
+de cada nível, as palavras-chave e os conteúdos relacionados da base.
 
-Parte de **Ciência de Dados** do projeto: o modelo e a API que o back-end consome.
 
 ---
 
-## O contrato (o que a API devolve)
+## Como executar
 
-Este é o formato que o back-end e o front-end podem esperar:
+```bash
+pip install -r requirements.txt
+python dados/gerar_dataset.py
+python dados/artigos_reais.py
+python modelo/treinar.py
+uvicorn api.main:app --reload
+```
+
+Documentação interativa: **http://127.0.0.1:8000/docs**
+
+---
+
+
+---
+
+## Saída
 
 ```json
 {
@@ -83,22 +97,6 @@ techmind/
 └── requirements.txt
 ```
 
----
-
-## Como executar
-
-```bash
-pip install -r requirements.txt
-python dados/gerar_dataset.py
-python dados/artigos_reais.py
-python modelo/treinar.py
-uvicorn api.main:app --reload
-```
-
-Documentação interativa: **http://127.0.0.1:8000/docs**
-
----
-
 ## Endpoints
 
 | Método | Rota | Descrição |
@@ -124,34 +122,13 @@ Documentação interativa: **http://127.0.0.1:8000/docs**
 
 - **Dois níveis:** dois classificadores independentes (área e subárea), ambos
   **TF-IDF + Regressão Logística**.
-- **Base própria:** ~290 conteúdos sintéticos **mais 24 trechos reais extraídos de
-  4 artigos científicos** (segmentados por seção), totalizando ~318 registros em
-  **7 áreas** e **21 subáreas**, misturando documentação técnica, textos
+- **Base própria:** 290 conteúdos sintéticos, 24 trechos reais extraídos de
+  4 artigos científicos (segmentados por seção), totalizando 318 registros em
+  7 áreas e 21 subáreas, misturando documentação técnica, textos
   explicativos e conteúdo acadêmico real.
-- **Métrica:** F1-score macro. Resultado — **F1 ≈ 0,97 na área** e **≈ 0,85 na
-  subárea**. A subárea acerta um pouco menos por ter mais classes (21 vs 7) e
+- **Métrica:** F1-score macro. Resultado — F1 ≈ 0,97 na área e ≈ 0,85 na
+  subárea. A subárea acerta um pouco menos por ter mais classes (21 vs 7) e
   menos exemplos por classe, o que é esperado.
-- **Onde erra:** conteúdos de fronteira, que citam dois assuntos ao mesmo tempo.
-  A base foi construída de propósito com esses casos, para não gerar um
-  resultado artificialmente perfeito.
-
-### Áreas
-
-Backend · Frontend · Inteligência Artificial · Ciência de Dados ·
-Banco de Dados · DevOps e Cloud · Mobile
-
-(cada uma com 2–3 subáreas — veja `GET /taxonomia`)
-
----
-
-## Integração entre as equipes
-
-- **Data Science (esta pasta):** entrega o `.joblib` e a função `processar()`,
-  além da API que expõe o modelo em localhost.
-- **Back-end:** consome a API (ou a função, se também for Python). Recebe o JSON
-  do contrato acima e cuida do "caderno" do usuário, da confirmação e do resto.
-- A API já libera **CORS**, então o front-end consegue chamá-la direto durante o
-  desenvolvimento.
 
 ---
 
@@ -162,7 +139,5 @@ O modelo é treinado localmente, enviado ao bucket com
 `python oci_storage.py enviar`, e a aplicação baixa dele ao iniciar.
 
 ---
-
-## Dependências
 
 Python 3.12, scikit-learn 1.8, pandas 3.0, FastAPI 0.139. Ver `requirements.txt`.
