@@ -1,0 +1,52 @@
+### Exemplo 1 — o exemplo do plano da equipe (linguagem natural)
+POST http://127.0.0.1:8000/conteudo
+Content-Type: application/json
+
+{
+  "titulo": "O que e machine learning e como ele funciona?",
+  "texto": "Os robos, como sao chamados, sao equipamentos que possuem softwares que possibilitam o aprendizado e o desenvolvimento de novas habilidades a partir das interacoes que realizam."
+}
+
+### Exemplo 2 — documentacao tecnica
+POST http://127.0.0.1:8000/conteudo
+Content-Type: application/json
+
+{
+  "titulo": "Introducao ao Spring Boot",
+  "texto": "Neste conteudo sao apresentados os conceitos basicos para criacao de APIs REST utilizando Java e Spring Boot."
+}
+
+### Exemplo 3 — DevOps e Cloud
+POST http://127.0.0.1:8000/conteudo
+Content-Type: application/json
+
+{
+  "titulo": "Deploy de containers na nuvem",
+  "texto": "Guia pratico de containerizacao com Docker e publicacao da aplicacao usando OCI Compute e Object Storage."
+}
+
+### Exemplo 4 — processamento em lote
+POST http://127.0.0.1:8000/conteudo/lote
+Content-Type: application/json
+
+{
+  "conteudos": [
+    {"titulo": "Consultas SQL com JOIN", "texto": "Material sobre JOIN, GROUP BY e otimizacao de indices em bancos relacionais."},
+    {"titulo": "Redes neurais na pratica", "texto": "Introducao a redes neurais e deep learning, com varias camadas de neuronios."}
+  ]
+}
+
+### Exemplo 5 — erro de validacao (titulo curto)
+POST http://127.0.0.1:8000/conteudo
+Content-Type: application/json
+
+{
+  "titulo": "ab",
+  "texto": "curto"
+}
+
+### Ver a taxonomia completa (areas e subareas)
+GET http://127.0.0.1:8000/taxonomia
+
+### Status do servico
+GET http://127.0.0.1:8000/saude
