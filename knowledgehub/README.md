@@ -1,6 +1,6 @@
 # Hackathon ONE — Team 16 
 
-# KnowledgeHub
+# Knowledge Hub
 
 Solução que recebe conteúdos técnicos (título e texto) e devolve, em JSON,
 uma classificação em dois níveis (área principal e subárea), a confiança
