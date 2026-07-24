@@ -1,0 +1,42 @@
+name: TechMind API CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    name: Compilação e Suíte de Testes (QA)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Dar permissão de execução ao Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Compilar Projeto
+        run: ./mvnw clean compile -B
+
+      - name: Executar Testes Unitários e de Integração
+        run: ./mvnw test -B
+
+      - name: Gerar Pacote JAR
+        run: ./mvnw package -DskipTests -B
+
+      - name: Upload do Artefato JAR (Build Success)
+        uses: actions/upload-artifact@v4
+        with:
+          name: techmind-api-jar
+          path: target/*.jar
+          retention-days: 7

@@ -1,26 +1,101 @@
 package br.com.techmind.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.Instant;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> tratarValidacao(
-            MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, Object>> tratarValidacao(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-        Map<String, String> erros = new HashMap<>();
+        log.warn("Falha de validação na requisição {}: {}", request.getRequestURI(), ex.getMessage());
 
+        Map<String, String> fieldErrors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                erros.put(error.getField(), error.getDefaultMessage())
+                fieldErrors.put(error.getField(), error.getDefaultMessage())
         );
 
-        return erros;
+        Map<String, Object> body = createErrorBody(
+                HttpStatus.BAD_REQUEST.value(),
+                "Requisição Inválida",
+                "Um ou mais campos contêm erros de validação.",
+                request.getRequestURI()
+        );
+        body.put("errors", fieldErrors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> tratarJsonMalformatado(
+            HttpMessageNotReadableException ex, HttpServletRequest request) {
+
+        log.warn("Corpo da requisição JSON malformado: {}", ex.getMessage());
+
+        Map<String, Object> body = createErrorBody(
+                HttpStatus.BAD_REQUEST.value(),
+                "JSON Malformado",
+                "O corpo da requisição JSON está malformado ou ausente.",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Map<String, Object>> tratarMetodoNaoSuportado(
+            HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
+
+        Map<String, Object> body = createErrorBody(
+                HttpStatus.METHOD_NOT_ALLOWED.value(),
+                "Método Não Permitido",
+                "O método HTTP " + ex.getMethod() + " não é suportado para esta rota.",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(body);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> tratarErroGenerico(
+            Exception ex, HttpServletRequest request) {
+
+        log.error("Erro interno não tratado na rota {}: ", request.getRequestURI(), ex);
+
+        Map<String, Object> body = createErrorBody(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Erro Interno do Servidor",
+                "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+
+    private Map<String, Object> createErrorBody(int status, String error, String message, String path) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", Instant.now().toString());
+        body.put("status", status);
+        body.put("error", error);
+        body.put("message", message);
+        body.put("path", path);
+        return body;
     }
 }
