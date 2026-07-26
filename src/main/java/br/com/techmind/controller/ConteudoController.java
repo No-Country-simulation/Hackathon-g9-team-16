@@ -1,19 +1,25 @@
 package br.com.techmind.controller;
 
-import br.com.techmind.database.model.ConteudoEntity;
 import br.com.techmind.dto.request.ConteudoRequestDto;
 import br.com.techmind.dto.response.ConteudoResponseDto;
 import br.com.techmind.service.ConteudoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Controller responsável pelos endpoints REST
+ * relacionados aos conteúdos técnicos.
+ *
+ * <p>
+ * Recebe as requisições HTTP, valida os dados enviados
+ * e delega o processamento das regras de negócio
+ * para a camada de serviço.
+ * </p>
+ */
 @RestController
 @RequestMapping("/v1/conteudos")
 @RequiredArgsConstructor
