@@ -2,6 +2,8 @@ package br.com.techmind.service;
 
 import br.com.techmind.dto.ConteudoRequest;
 import br.com.techmind.dto.ConteudoResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,30 +14,28 @@ import java.util.Map;
 @Service
 public class ConteudoService {
 
+    private static final Logger log = LoggerFactory.getLogger(ConteudoService.class);
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String FASTAPI_URL = "http://127.0.0.1:8000/conteudo";
 
     @SuppressWarnings("unchecked")
     public ConteudoResponse processar(ConteudoRequest request) {
+        log.info("Processando solicitação de análise de conteúdo com título: '{}'", request.getTitulo());
+
         try {
-            // Cria o corpo da requisição compatível com o FastAPI (Pydantic model ConteudoEntrada)
             Map<String, String> payload = new HashMap<>();
             payload.put("titulo", request.getTitulo());
             payload.put("texto", request.getTexto());
 
-            // Envia o POST para a API do modelo de IA (FastAPI)
             Map<String, Object> apiResponse = restTemplate.postForObject(FASTAPI_URL, payload, Map.class);
 
             if (apiResponse != null) {
                 ConteudoResponse response = new ConteudoResponse();
-                
-                // Mapeia o JSON multinível do FastAPI para o contrato simples da API Java
+
                 Map<String, Object> classificacao = (Map<String, Object>) apiResponse.get("classificacao");
                 if (classificacao != null) {
-                    // Categoria maps to subarea
                     response.setCategoria((String) classificacao.get("subarea"));
-                    
-                    // Probabilidade maps to confianca_subarea
+
                     Object confianca = classificacao.get("confianca_subarea");
                     if (confianca instanceof Number) {
                         response.setProbabilidade(((Number) confianca).doubleValue());
@@ -46,20 +46,19 @@ public class ConteudoService {
                     response.setCategoria("Indefinido");
                     response.setProbabilidade(0.0);
                 }
-                
-                // Palavras-chave maps to palavras_chave
+
                 response.setPalavrasChave((List<String>) apiResponse.get("palavras_chave"));
-                
-                // Resumo maps to o título processado
                 response.setResumo(request.getTitulo());
-                
+
+                log.info("Conteúdo analisado com sucesso via IA. Categoria: '{}', Probabilidade: {}",
+                        response.getCategoria(), response.getProbabilidade());
+
                 return response;
             }
         } catch (Exception e) {
-            System.err.println("Erro ao integrar com o modelo FastAPI: " + e.getMessage());
+            log.error("Erro ao integrar com o modelo FastAPI: {}", e.getMessage());
         }
 
-        // Fallback robusto offline de segurança
         ConteudoResponse fallback = new ConteudoResponse();
         fallback.setCategoria("Erro de IA");
         fallback.setProbabilidade(0.0);

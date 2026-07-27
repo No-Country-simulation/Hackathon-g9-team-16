@@ -1,0 +1,11 @@
+.git
+.gitignore
+.idea
+.vscode
+.mvn
+target
+Dockerfile
+README.md
+FRONTEND_INTEGRATION.md
+*.log
+*.tmp
