@@ -308,49 +308,102 @@ document.addEventListener("DOMContentLoaded", () => {
       containerResult.style.display = "none";
       containerProcessing.style.display = "flex";
 
-      // Passos da animação simulada
-      const steps = [
-        "Lendo texto técnico inserido...",
-        "Enviando payload para pipeline de Ciência de Dados...",
-        "Executando vetorização do texto com TF-IDF...",
-        "Invocando modelo de Regressão Logística na OCI...",
-        "Computando tags mais relevantes do conteúdo...",
-        "Simulando upload no OCI Object Storage...",
-        "Estruturando arquivo de resposta JSON..."
-      ];
-
-      let currentStep = 0;
-      processingText.innerText = steps[currentStep];
+      const apiMode = sessionStorage.getItem("techmind_api_mode") || "mock";
+      const apiUrl = sessionStorage.getItem("techmind_api_url") || "/conteudo";
 
       // Logs de execução simulados no painel OCI
       logOCI(`Iniciando análise de texto técnico: "${titulo}"`, "info");
-      logOCI("POST /api/conteudo - Iniciado processamento", "info");
 
-      const interval = setInterval(() => {
-        currentStep++;
-        if (currentStep < steps.length) {
-          processingText.innerText = steps[currentStep];
-          // Triggando logs específicos
-          if (currentStep === 2) logOCI("Processando NLP: Removendo stopwords e gerando n-grams", "info");
-          if (currentStep === 3) logOCI("Classificando via ML: LogisticRegression.predict()", "info");
-          if (currentStep === 5) logOCI(`Gravando backup raw na OCI: oci://techmind-kb-bucket/raw/temp-${Date.now()}.json`, "success");
-        } else {
-          clearInterval(interval);
-          
-          // Análise concluída. Executa classificação heurística de ML
-          const result = analyzeContent(titulo, texto, tipo);
+      if (apiMode === "live") {
+        logOCI(`Efetuando chamada real para API: POST ${apiUrl}`, "info");
+        processingText.innerText = "Conectando ao servidor Spring Boot...";
+
+        fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ titulo, texto })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Erro na API (Status ${response.status})`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // O Spring Boot retorna { categoria, probabilidade, palavrasChave, resumo }
+          const docId = `doc-${String(documentos.length + 1).padStart(3, "0")}`;
+          const cleanCategorySlug = (data.categoria || "generic").toLowerCase().replace(" ", "");
+
+          const result = {
+            id: docId,
+            titulo: titulo,
+            tipo: tipo,
+            texto: texto,
+            categoria: data.categoria || "Backend",
+            probabilidade: data.probabilidade || 1.0,
+            informacoes_adicionais: data.palavrasChave || ["Tech"],
+            data_criacao: new Date().toISOString(),
+            oci_storage_path: `oci://techmind-kb-bucket/raw/${cleanCategorySlug}/${docId}.json`
+          };
+
           currentAnalysisResult = result;
-          
-          // Renderiza o resultado na tela
           renderAnalysisResult(result);
-          
+
           containerProcessing.style.display = "none";
           containerResult.style.display = "block";
           btnAnalyze.disabled = false;
-          
-          logOCI("POST /api/conteudo - Retornou Status 200 (Success)", "success");
-        }
-      }, 400); // 400ms por etapa = 2.8s no total
+
+          logOCI(`Retorno recebido do modelo via Spring Boot! Categoria: ${data.categoria}`, "success");
+        })
+        .catch(error => {
+          console.error("Erro na requisição real:", error);
+          alert(`Falha ao conectar com o backend real. Verifique se o servidor Spring Boot está de pé na porta 8080.\n\nDetalhe do erro: ${error.message}`);
+          containerProcessing.style.display = "none";
+          btnAnalyze.disabled = false;
+          logOCI(`Falha na requisição real: ${error.message}`, "error");
+        });
+
+      } else {
+        // Passos da animação simulada
+        const steps = [
+          "Lendo texto técnico inserido...",
+          "Enviando payload para pipeline de Ciência de Dados...",
+          "Executando vetorização do texto com TF-IDF...",
+          "Invocando modelo de Regressão Logística na OCI...",
+          "Computando tags mais relevantes do conteúdo...",
+          "Simulando upload no OCI Object Storage...",
+          "Estruturando arquivo de resposta JSON..."
+        ];
+
+        let currentStep = 0;
+        processingText.innerText = steps[currentStep];
+        logOCI("POST /api/conteudo - Iniciado processamento simulado", "info");
+
+        const interval = setInterval(() => {
+          currentStep++;
+          if (currentStep < steps.length) {
+            processingText.innerText = steps[currentStep];
+            if (currentStep === 2) logOCI("Processando NLP: Removendo stopwords e gerando n-grams", "info");
+            if (currentStep === 3) logOCI("Classificando via ML: LogisticRegression.predict()", "info");
+            if (currentStep === 5) logOCI(`Gravando backup raw na OCI: oci://techmind-kb-bucket/raw/temp-${Date.now()}.json`, "success");
+          } else {
+            clearInterval(interval);
+            
+            const result = analyzeContent(titulo, texto, tipo);
+            currentAnalysisResult = result;
+            
+            renderAnalysisResult(result);
+            
+            containerProcessing.style.display = "none";
+            containerResult.style.display = "block";
+            btnAnalyze.disabled = false;
+            
+            logOCI("POST /api/conteudo - Retornou Status 200 (Success) via Mock", "success");
+          }
+        }, 400); // 400ms por etapa = 2.8s no total
+      }
     });
 
     // Evento de Salvar na base
