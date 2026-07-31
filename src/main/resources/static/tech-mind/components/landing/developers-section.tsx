@@ -223,11 +223,11 @@ export function DevelopersSection() {
             
             {/* Links */}
             <div className="mt-6 flex items-center gap-6 text-sm">
-              <a href="#" className="text-foreground hover:underline underline-offset-4">
+              <a href="/swagger-ui.html" target="_blank" rel="noreferrer" className="text-foreground hover:underline underline-offset-4">
                 Ler a documentação
               </a>
               <span className="text-foreground/20">|</span>
-              <a href="#" className="text-muted-foreground hover:text-foreground">
+              <a href="https://github.com/No-Country-simulation/Hackathon-g9-team-16" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground">
                 Ver no GitHub
               </a>
             </div>

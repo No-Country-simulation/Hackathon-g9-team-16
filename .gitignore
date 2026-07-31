@@ -4,6 +4,18 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Logs & processo local ###
+spring.log
+spring-err.log
+spring.pid
+*.pid
+
+### Cópia solta de landing na raiz ###
+/static/
+
+### Build estático da landing gerado pelo Next.js ###
+/src/main/resources/static/landing/
+
 ### STS ###
 .apt_generated
 .classpath

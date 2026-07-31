@@ -40,12 +40,21 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
                     "/",
+                    "/health",
                     "/conteudo",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
                     "/actuator/**",
-                    "/error"
+                    "/error",
+                    "/landing/**",
+                    "/landing",
+                    "/login.html",
+                    "/index.html",
+                    "/app.js",
+                    "/mockData.js",
+                    "/style.css",
+                    "/tech-mind/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             );

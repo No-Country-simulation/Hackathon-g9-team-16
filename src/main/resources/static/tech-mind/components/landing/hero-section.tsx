@@ -71,7 +71,7 @@ export function HeroSection() {
         {/* Main headline */}
         <div className="mb-12">
           <h1 
-            className={`text-[clamp(3rem,12vw,10rem)] font-display leading-[0.9] tracking-tight transition-all duration-1000 ${
+            className={`text-[clamp(2.5rem,8vw,6rem)] font-display leading-[1] tracking-tight transition-all duration-1000 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -120,18 +120,24 @@ export function HeroSection() {
             }`}
           >
             <Button 
+              asChild
               size="lg" 
               className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
             >
-              Testar a API
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              <a href="/login.html">
+                Testar a API
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              </a>
             </Button>
             <Button 
+              asChild
               size="lg" 
               variant="outline" 
               className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
             >
-              Ver documentação
+              <a href="/swagger-ui.html" target="_blank" rel="noreferrer">
+                Ver documentação
+              </a>
             </Button>
           </div>
         </div>

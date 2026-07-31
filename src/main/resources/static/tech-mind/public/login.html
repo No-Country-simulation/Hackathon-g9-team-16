@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TechMind Login - Entre no repositório inteligente de conhecimento técnico.">
+  <title>TechMind | Autenticação</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a página de Login e Cadastro */
+    body.login-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-y: auto;
+      padding: 40px 20px;
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(at 20% 20%, rgba(157, 78, 221, 0.12) 0px, transparent 40%),
+        radial-gradient(at 80% 80%, rgba(0, 242, 254, 0.12) 0px, transparent 40%);
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      animation: authFadeIn 0.5s ease-out;
+    }
+
+    @keyframes authFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: var(--shadow-glow-card);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-mixed);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-mixed);
+      border-radius: 12px;
+      box-shadow: var(--shadow-glow-cyan);
+      margin-bottom: 16px;
+    }
+
+    .auth-logo svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .auth-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .auth-header p {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .form-switch-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .auth-form {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .auth-form.active-form {
+      display: flex;
+      animation: formFadeIn 0.3s ease-out forwards;
+    }
+
+    @keyframes formFadeIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .input-icon-wrapper {
+      position: relative;
+    }
+
+    .input-icon-wrapper svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-secondary);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .input-icon-wrapper .form-control {
+      padding-left: 44px;
+    }
+
+    .btn-toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    .btn-toggle-password:hover {
+      color: var(--text-main);
+    }
+
+    .btn-toggle-password svg {
+      position: static;
+      transform: none;
+      width: 18px;
+      height: 18px;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .form-options a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .form-options a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-switch-text {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 24px;
+    }
+
+    .auth-switch-text a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .auth-switch-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* CARD DE CREDENCIAIS DE TESTE */
+    .credentials-card {
+      background: rgba(16, 20, 38, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .credentials-title {
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+    }
+
+    .credentials-title svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--accent-cyan);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .credentials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .credential-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 13, 26, 0.5);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .credential-item:hover {
+      background: rgba(30, 41, 74, 0.3);
+      border-color: var(--accent-cyan);
+    }
+
+    .credential-info {
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+    }
+
+    .credential-info strong {
+      color: var(--text-main);
+    }
+
+    .btn-fill-badge {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-cyan);
+      color: var(--text-main);
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      font-size: 13px;
+      z-index: 2000;
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.toast-error {
+      border-left-color: var(--accent-red);
+    }
+
+    .toast.toast-success {
+      border-left-color: var(--accent-emerald);
+    }
+
+    /* Efeito de balanço de erro (shake) */
+    .shake {
+      animation: shakeAnimation 0.4s ease-in-out;
+    }
+
+    @keyframes shakeAnimation {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+  </style>
+</head>
+<body class="login-body">
+
+  <div class="auth-container">
+    
+    <!-- CARD PRINCIPAL DE AUTENTICAÇÃO -->
+    <div class="auth-card" id="auth-card">
+      
+      <!-- Cabeçalho dinâmico -->
+      <div class="auth-header">
+        <div class="auth-logo">
+          <!-- Ícone do Cérebro Simples (Minimalista - Circular) -->
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Linha Central -->
+            <path d="M12 3v18" />
+            
+            <!-- Lóbulo Esquerdo -->
+            <path d="M12 3c-1.5 0-2.8.8-3.4 2-.7-.5-1.8-.6-2.5-.2-1.2.7-1.8 2-1.5 3.5-.9.2-1.7 1-2 2-.6 1.4-.2 3 .8 4-.7.7-1.1 1.7-1 2.8.1 1.4 1 2.6 2.3 3-.1.9.2 1.8.9 2.5 1 1 2.3 1.4 3.6 1 .6 1 1.8 1.4 3 1.4" />
+            
+            <!-- Rugas Internas Esquerdas -->
+            <path d="M9 7c0.6 1 1.8 1.5 3 1.5" />
+            <path d="M6.5 12c0.8 1.2 2.2 1.2 3 .5" />
+            <path d="M7.5 17.5c0.8 1.2 2.2 1.2 3 0" />
+
+            <!-- Lóbulo Direito -->
+            <path d="M12 3c1.5 0 2.8.8 3.4 2 .7-.5 1.8-.6 2.5-.2 1.2.7 1.8 2 1.5 3.5.9.2 1.7 1 2 2 .6 1.4.2 3-.8 4 .7.7 1.1 1.7 1 2.8-.1 1.4-1 2.6-2.3 3 .1.9-.2 1.8-.9 2.5-1 1-2.3 1.4-3.6 1-.6 1-1.8 1.4-3 1.4" />
+            
+            <!-- Rugas Internas Direitas -->
+            <path d="M15 7c-0.6 1-1.8 1.5-3 1.5" />
+            <path d="M12 13.5h1.8c1 0 1.8 0.8 1.8 1.8v0.7" />
+            <path d="M16.5 17.5c-0.8 1.2-2.2 1.2-3 0" />
+          </svg>
+        </div>
+        <h1 id="auth-title">Entrar no TechMind</h1>
+        <p id="auth-subtitle">Acesse sua base inteligente de conhecimento técnico.</p>
+      </div>
+
+      <div class="form-switch-wrapper">
+        
+        <!-- FORMULÁRIO DE LOGIN -->
+        <form id="form-login" class="auth-form active-form">
+          <div class="form-group">
+            <label for="login-email">E-mail corporativo</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" id="login-email" class="form-control" placeholder="exemplo@empresa.com" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Senha de acesso</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" data-target="login-password">
+                <svg viewBox="0 0 24 24" class="icon-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label style="display: flex; align-items: center; gap: 6px; cursor:pointer;">
+              <input type="checkbox" id="login-remember" style="accent-color: var(--accent-cyan);"> Lembrar de mim
+            </label>
+            <a href="#" id="link-forgot">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top: 10px;">
+            Acessar Plataforma
+          </button>
+          
+          <div class="auth-switch-text">
+            Não possui uma conta? <a href="#" id="btn-go-register">Cadastre-se</a>
+          </div>
+        </form>
+
+        <!-- FORMULÁRIO DE CADASTRO -->
+        <form id="form-register" class="auth-form">
+          <div class="form-group">
+            <label for="register-name">Nome Completo</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" id="register-name" class="form-control" placeholder="Seu nome" required autocomplete="name">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="register-email">E-mail corporativo</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" id="register-email" class="form-control" placeholder="exemplo@empresa.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password">Crie uma Senha</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="register-password" class="form-control" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+              <button type="button" class="btn-toggle-password" data-target="register-password">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="register-confirm">Confirme sua Senha</label>
+            <div class="input-icon-wrapper">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="register-confirm" class="form-control" placeholder="Confirme a senha" required autocomplete="new-password">
+              <button type="button" class="btn-toggle-password" data-target="register-confirm">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top: 10px;">
+            Criar Minha Conta
+          </button>
+          
+          <div class="auth-switch-text">
+            Já possui uma conta? <a href="#" id="btn-go-login">Faça Login</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- CARD FLUTUANTE DE CREDENCIAIS DE TESTE -->
+    <div class="credentials-card">
+      <div class="credentials-title">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Acesso Rápido (Contas de Teste)
+      </div>
+      <div class="credentials-list">
+        <div class="credential-item" data-email="admin@teste.com" data-password="senha123">
+          <div class="credential-info">
+            <strong>Admin:</strong> admin@teste.com | senha123
+          </div>
+          <span class="btn-fill-badge">Preencher</span>
+        </div>
+        <div class="credential-item" data-email="user@teste.com" data-password="user123">
+          <div class="credential-info">
+            <strong>Colaborador:</strong> user@teste.com | user123
+          </div>
+          <span class="btn-fill-badge">Preencher</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOAST SYSTEM -->
+  <div class="toast" id="auth-toast">
+    <div style="font-weight: 600;" id="toast-message">Mensagem</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // --- ELEMENTOS ---
+      const formLogin = document.getElementById("form-login");
+      const formRegister = document.getElementById("form-register");
+      const authTitle = document.getElementById("auth-title");
+      const authSubtitle = document.getElementById("auth-subtitle");
+      const authCard = document.getElementById("auth-card");
+      
+      const toast = document.getElementById("auth-toast");
+      const toastMsg = document.getElementById("toast-message");
+
+      // --- ALTERNÂNCIA DE TELAS ---
+      const btnGoRegister = document.getElementById("btn-go-register");
+      const btnGoLogin = document.getElementById("btn-go-login");
+
+      const showRegister = (e) => {
+        if (e) e.preventDefault();
+        formLogin.classList.remove("active-form");
+        formRegister.classList.add("active-form");
+        authTitle.innerText = "Criar Conta TechMind";
+        authSubtitle.innerText = "Comece a estruturar sua base de conhecimento agora mesmo.";
+      };
+
+      const showLogin = (e) => {
+        if (e) e.preventDefault();
+        formRegister.classList.remove("active-form");
+        formLogin.classList.add("active-form");
+        authTitle.innerText = "Entrar no TechMind";
+        authSubtitle.innerText = "Acesse sua base inteligente de conhecimento técnico.";
+      };
+
+      btnGoRegister.addEventListener("click", showRegister);
+      btnGoLogin.addEventListener("click", showLogin);
+
+      // --- TOAST NOTIFICATION UTILS ---
+      const showToast = (message, type = "success") => {
+        toastMsg.innerText = message;
+        toast.className = `toast show toast-${type}`;
+        
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      };
+
+      // --- EYE BUTTON TOGGLE PASSWORD ---
+      const passwordTogglers = document.querySelectorAll(".btn-toggle-password");
+      passwordTogglers.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const inputId = btn.getAttribute("data-target");
+          const input = document.getElementById(inputId);
+          if (input) {
+            const isPassword = input.type === "password";
+            input.type = isPassword ? "text" : "password";
+            
+            // Troca ícone olho aberto/fechado
+            btn.innerHTML = isPassword 
+              ? `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+              : `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+          }
+        });
+      });
+
+      // --- AUTO-FILL CREDENCIAIS DE TESTE ---
+      const credentialItems = document.querySelectorAll(".credential-item");
+      credentialItems.forEach(item => {
+        item.addEventListener("click", () => {
+          const email = item.getAttribute("data-email");
+          const password = item.getAttribute("data-password");
+
+          // Força a tela de login
+          showLogin();
+
+          document.getElementById("login-email").value = email;
+          document.getElementById("login-password").value = password;
+
+          showToast("Credenciais preenchidas!", "success");
+        });
+      });
+
+      // --- BASE DE USUÁRIOS LOCAL (SESSION STORAGE) ---
+      const getUsers = () => {
+        const users = sessionStorage.getItem("techmind_users");
+        return users ? JSON.parse(users) : [
+          { name: "Administrador", email: "admin@teste.com", password: "senha123", role: "ADMIN" },
+          { name: "Colaborador", email: "user@teste.com", password: "user123", role: "USER" }
+        ];
+      };
+
+      const saveUsers = (users) => {
+        sessionStorage.setItem("techmind_users", JSON.stringify(users));
+      };
+
+      // --- SUBMISSÃO DO LOGIN ---
+      formLogin.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        // Procura usuário
+        const users = getUsers();
+        const foundUser = users.find(u => u.email === email && u.password === password);
+
+        if (foundUser) {
+          // Cria sessão
+          sessionStorage.setItem("techmind_user_session", JSON.stringify({
+            name: foundUser.name,
+            email: foundUser.email,
+            role: foundUser.role || "USER"
+          }));
+
+          showToast(`Bem-vindo, ${foundUser.name}! Redirecionando...`, "success");
+          
+          // Sucesso - Anima botão
+          const btn = formLogin.querySelector("button[type='submit']");
+          btn.disabled = true;
+          btn.innerText = "Autenticado...";
+          
+          setTimeout(() => {
+            window.location.href = "app.html";
+          }, 1200);
+        } else {
+          // Erro
+          showToast("E-mail ou senha incorretos.", "error");
+          authCard.classList.add("shake");
+          
+          // Remove classe de erro após animação para permitir rodar de novo
+          setTimeout(() => {
+            authCard.classList.remove("shake");
+          }, 450);
+        }
+      });
+
+      // --- SUBMISSÃO DO CADASTRO ---
+      formRegister.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById("register-name").value.trim();
+        const email = document.getElementById("register-email").value.trim();
+        const password = document.getElementById("register-password").value;
+        const confirm = document.getElementById("register-confirm").value;
+
+        // Validações básicas adicionais
+        if (password.length < 6) {
+          showToast("A senha deve conter no mínimo 6 caracteres.", "error");
+          return;
+        }
+
+        if (password !== confirm) {
+          showToast("As senhas não coincidem.", "error");
+          return;
+        }
+
+        const users = getUsers();
+        
+        // Verifica se e-mail já existe
+        if (users.some(u => u.email === email)) {
+          showToast("Este e-mail já está cadastrado no sistema.", "error");
+          return;
+        }
+
+        // Adiciona usuário
+        const newUser = { name, email, password, role: "USER" };
+        users.push(newUser);
+        saveUsers(users);
+
+        showToast("Conta criada! Efetuando login automático...", "success");
+
+        // Realiza login automático
+        sessionStorage.setItem("techmind_user_session", JSON.stringify({
+          name: newUser.name,
+          email: newUser.email,
+          role: newUser.role
+        }));
+
+        const btn = formRegister.querySelector("button[type='submit']");
+        btn.disabled = true;
+        btn.innerText = "Acessando...";
+
+        setTimeout(() => {
+          window.location.href = "app.html";
+        }, 1200);
+      });
+
+      // Link Mockado
+      document.getElementById("link-forgot").addEventListener("click", (e) => {
+        e.preventDefault();
+        showToast("Instruções de recuperação enviadas para o e-mail cadastrado (Simulação).", "success");
+      });
+    });
+  </script>
+</body>
+</html>
