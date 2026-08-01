@@ -27,9 +27,9 @@ Front-End (SPA Vanilla JS)  →  POST /conteudo  →  Spring Boot (Java 17)
 
 | Membro | Função |
 |---|---|
-| **Gabriel** | Back-End, Front-End & Infra/OCI |
+| **Gabriel** |  Front-End |
 | **Giovana** | Back-End & Endpoints/Validações |
-| **Diego** | Back-End, Banco de Dados & Documentação |
+| **Diego** | Back-End, Banco de Dados & Documentação & Infra/OCI|
 | **Alice** | Data Science — NLP & Modelagem |
 | **Julia** | Data Analytics & Tratamento/EDA |
 | **Alisson** | Back-End — Security & DevOps |
