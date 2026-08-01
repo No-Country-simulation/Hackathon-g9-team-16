@@ -28,34 +28,30 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
-		<oci-java-sdk.version>3.53.0</oci-java-sdk.version>
+		<oci-java-sdk.version>3.48.0</oci-java-sdk.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>com.oracle.oci.sdk</groupId>
-				<artifactId>oci-java-sdk-bom</artifactId>
-				<version>${oci-java-sdk.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- OCI Java SDK -->
+		<!-- OCI Java SDK (novo groupId) -->
 		<dependency>
 			<groupId>com.oracle.oci.sdk</groupId>
 			<artifactId>oci-java-sdk-common</artifactId>
+			<version>${oci-java-sdk.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle.oci.sdk</groupId>
 			<artifactId>oci-java-sdk-generativeaiinference</artifactId>
+			<version>${oci-java-sdk.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle.oci.sdk</groupId>
 			<artifactId>oci-java-sdk-common-httpclient-jersey3</artifactId>
+			<version>${oci-java-sdk.version}</version>
 		</dependency>
 
 		<dependency>

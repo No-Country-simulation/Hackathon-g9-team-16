@@ -1,10 +1,10 @@
 package br.com.techmind.config.oci;
 
-import com.oracle.oci.sdk.auth.AuthenticationDetailsProvider;
-import com.oracle.oci.sdk.auth.ConfigFileAuthenticationDetailsProvider;
-import com.oracle.oci.sdk.auth.SimpleAuthenticationDetailsProvider;
-import com.oracle.oci.sdk.common.Region;
-import com.oracle.oci.sdk.generativeaiinference.GenerativeAiInferenceClient;
+import com.oracle.bmc.auth.AuthenticationDetailsProvider;
+import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
+import com.oracle.bmc.auth.SimpleAuthenticationDetailsProvider;
+import com.oracle.bmc.Region;
+import com.oracle.bmc.generativeaiinference.GenerativeAiInferenceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

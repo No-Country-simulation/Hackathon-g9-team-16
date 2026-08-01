@@ -2,10 +2,10 @@ package br.com.techmind.service;
 
 import br.com.techmind.config.oci.OciProperties;
 import br.com.techmind.dto.ConteudoResponse;
-import com.oracle.oci.sdk.generativeaiinference.GenerativeAiInferenceClient;
-import com.oracle.oci.sdk.generativeaiinference.model.*;
-import com.oracle.oci.sdk.generativeaiinference.requests.GenerateTextRequest;
-import com.oracle.oci.sdk.generativeaiinference.responses.GenerateTextResponse;
+import com.oracle.bmc.generativeaiinference.GenerativeAiInferenceClient;
+import com.oracle.bmc.generativeaiinference.model.*;
+import com.oracle.bmc.generativeaiinference.requests.GenerateTextRequest;
+import com.oracle.bmc.generativeaiinference.responses.GenerateTextResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -73,7 +73,7 @@ public class OciGenerativeAiService {
             if (response != null && response.getGenerateTextResult() != null) {
                 GenerateTextResult result = response.getGenerateTextResult();
                 if (result.getInferenceResponse() instanceof CohereLlmInferenceResponse cohereResponse) {
-                    List<CohereGeneratedText> generatedTexts = cohereResponse.getGeneratedTexts();
+                    List<GeneratedText> generatedTexts = cohereResponse.getGeneratedTexts();
                     if (generatedTexts != null && !generatedTexts.isEmpty()) {
                         String generatedContent = generatedTexts.get(0).getText();
 

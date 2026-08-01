@@ -4,6 +4,7 @@ import br.com.techmind.dto.ConteudoRequest;
 import br.com.techmind.dto.ConteudoResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +18,9 @@ public class ConteudoService {
 
     private static final Logger log = LoggerFactory.getLogger(ConteudoService.class);
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String FASTAPI_URL = "http://127.0.0.1:8000/conteudo";
+
+    @Value("${app.fastapi.url:http://127.0.0.1:8000/conteudo}")
+    private String fastApiUrl;
     
     private final OciGenerativeAiService ociGenerativeAiService;
 
@@ -50,7 +53,8 @@ public class ConteudoService {
             payload.put("titulo", request.getTitulo());
             payload.put("texto", request.getTexto());
 
-            Map<String, Object> apiResponse = restTemplate.postForObject(FASTAPI_URL, payload, Map.class);
+            log.info("Chamando FastAPI em: {}", fastApiUrl);
+            Map<String, Object> apiResponse = restTemplate.postForObject(fastApiUrl, payload, Map.class);
 
             if (apiResponse != null) {
                 ConteudoResponse response = new ConteudoResponse();
