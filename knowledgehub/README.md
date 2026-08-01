@@ -6,10 +6,9 @@ Solução que recebe conteúdos técnicos (título e texto) e devolve, em JSON,
 uma classificação em dois níveis (área principal e subárea), a confiança
 de cada nível, as palavras-chave e os conteúdos relacionados da base.
 
-
 ---
 
-## Como executar
+## Como executar:
 
 ```bash
 pip install -r requirements.txt
@@ -23,10 +22,7 @@ Documentação interativa: **http://127.0.0.1:8000/docs**
 
 ---
 
-
----
-
-## Saída
+## Saída:
 
 ```json
 {
