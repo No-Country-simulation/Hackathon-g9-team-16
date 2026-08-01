@@ -1,8 +1,5 @@
-HELP.md
+# Maven
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ### Logs & processo local ###
 spring.log
@@ -16,7 +13,7 @@ spring.pid
 ### Build estático da landing gerado pelo Next.js ###
 /src/main/resources/static/landing/
 
-### STS ###
+### STS & IDEs ###
 .apt_generated
 .classpath
 .factorypath
@@ -24,22 +21,24 @@ spring.pid
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.idea/
 *.iml
-*.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# VS Code
 .vscode/
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.class
+
+# Variáveis de ambiente
+.env
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db

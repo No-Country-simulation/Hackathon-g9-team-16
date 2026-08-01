@@ -1,5 +1,6 @@
 package br.com.techmind.exception;
 
+import br.com.techmind.dto.response.ErroResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe responsável pelo tratamento global
+ * das exceções lançadas pela aplicação.
+ *
+ * <p>
+ * Centraliza os retornos de erro da API,
+ * garantindo respostas padronizadas para o cliente.
+ * </p>
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -41,6 +53,22 @@ public class GlobalExceptionHandler {
         body.put("errors", fieldErrors);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(PythonIntegrationException.class)
+    public ResponseEntity<ErroResponseDto> handlePythonIntegrationException(
+            PythonIntegrationException ex) {
+
+        log.error("Falha na integração Python: ", ex);
+
+        ErroResponseDto resposta = ErroResponseDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_GATEWAY.value())
+                .mensagem("Serviço de Inteligência Artificial indisponível.")
+                .detalhes(List.of("Não foi possível processar o conteúdo no momento. Tente novamente mais tarde."))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(resposta);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

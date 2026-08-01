@@ -13,6 +13,16 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsável pelos endpoints REST
+ * relacionados aos conteúdos técnicos.
+ *
+ * <p>
+ * Recebe as requisições HTTP, valida os dados enviados
+ * e delega o processamento das regras de negócio
+ * para a camada de serviço.
+ * </p>
+ */
 @RestController
 @RequestMapping("/conteudo")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
