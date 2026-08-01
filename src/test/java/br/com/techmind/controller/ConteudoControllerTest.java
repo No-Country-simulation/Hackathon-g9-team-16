@@ -2,26 +2,29 @@ package br.com.techmind.controller;
 
 import br.com.techmind.dto.ConteudoRequest;
 import br.com.techmind.dto.ConteudoResponse;
+import br.com.techmind.exception.GlobalExceptionHandler;
 import br.com.techmind.service.ConteudoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(ConteudoController.class)
+@Import(GlobalExceptionHandler.class)
+@AutoConfigureMockMvc(addFilters = false)
 class ConteudoControllerTest {
 
     @Autowired
@@ -44,7 +47,7 @@ class ConteudoControllerTest {
                 "Backend", 0.95, List.of("Java", "Spring Boot"), "Resumo do texto"
         );
 
-        Mockito.when(conteudoService.processar(any(ConteudoRequest.class))).thenReturn(responseMock);
+        when(conteudoService.processar(any(ConteudoRequest.class))).thenReturn(responseMock);
 
         mockMvc.perform(post("/conteudo")
                         .contentType(MediaType.APPLICATION_JSON)

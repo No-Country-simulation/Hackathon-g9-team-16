@@ -61,12 +61,12 @@ public class GlobalExceptionHandler {
 
         log.error("Falha na integração Python: ", ex);
 
-        ErroResponseDto resposta = ErroResponseDto.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_GATEWAY.value())
-                .mensagem("Serviço de Inteligência Artificial indisponível.")
-                .detalhes(List.of("Não foi possível processar o conteúdo no momento. Tente novamente mais tarde."))
-                .build();
+        ErroResponseDto resposta = new ErroResponseDto(
+                LocalDateTime.now(),
+                HttpStatus.BAD_GATEWAY.value(),
+                "Serviço de Inteligência Artificial indisponível.",
+                List.of("Não foi possível processar o conteúdo no momento. Tente novamente mais tarde.")
+        );
 
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(resposta);
     }
